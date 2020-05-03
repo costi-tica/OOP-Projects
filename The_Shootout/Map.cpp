@@ -18,13 +18,21 @@ Map::~Map(){
 }
 
 std::ostream& operator << (std::ostream& out, const Map& map) {
+    out <<"\t\t\t";
+    for (int i = 0; i < 2 * map.size_ + 2; ++i)
+        out << char(219);
+    out<<"\n";
     for (int i = 0; i < map.size_; ++i){
-        out << "\t\t\t";
+        out << "\t\t\t" << char(219);
         for (int j = 0; j < map.size_; ++j){
             out << map.battle_field_[i][j] << " ";
         }
-        out << std::endl;
+        out << char(219) <<std::endl;
     }
+    out << "\t\t\t";
+    for (int i = 0; i < 2 * map.size_ + 2; ++i)
+        out << char(219);
+    out << "\n";
     return out;
 }
 
