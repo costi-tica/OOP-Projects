@@ -9,8 +9,8 @@ using namespace std;
 /*
     Cateva lucruri de stiut:
 
-        -Game game(numar agenti, dimensiune harta)
-        -game.Play(numar runde)
+        -Game game(numar agenti, dimensiune harta, char principal), by defalut sunt (30, 25, '-')
+        -game.Play(numar runde), by defalut 5
         -agentii au ca nume litere mari si mici, prin urmare daca se introduc peste 52 de agenti acestia o sa aiba ca nume alte caractere din ascii,
                 dar asta nu impacteaza cu nimic programul, e doar bine de stiut
         -agentii au o raza de vizibilitate random intre 5 si 8 si primesc random o arma si un scut
