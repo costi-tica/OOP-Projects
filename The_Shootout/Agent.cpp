@@ -46,10 +46,7 @@ int Agent::closest_target(const std::vector<Agent*>& agents){
     return index;
 }
 
-
 //agentii se misca in functie de cadran, in sens invers acelor de ceasornic.
-//Eu preferam sa primeasca o pozitie random din raza de vizine in functie de cardran (spre centru),
-//probabil ca inca ar mai fi determinist, dar am ales sa nu risc.
 void Agent::move(Map& map){
     int size = map.size();
     map.free_location(location_);
