@@ -19,7 +19,7 @@ using namespace std;
         -armele au power, distance si material + nume
         -scuturile au strength si material + nume
         -se poate intampla foarte rar in unele rulari ca doi agenti sa ramana pe harta
-                si sa nu se intalneasca din cauza tipului de miscare circulara si modului in care trage arma
+                si sa nu se confrunte din cauza tipului de miscare circulara si modului in care trage arma
         -cu 30 de agenti pe o harta de dim 25 e nevoie in medie de 10 runde pentru a ramane un singur agent
 */
 
