@@ -2,9 +2,9 @@
 #define NODE_H
 
 template<class K,class V>
-class KeyCmp;
+class Modify;
 
-template<class K,class V,class C = KeyCmp<K,V>>
+template<class K,class V,class M = Modify<K,V>>
 class Map;
 
 template<class K,class V>
@@ -16,7 +16,7 @@ class Node{
 public:
     Node(const K&, const V&, Node<K,V>* = NULL, Node<K,V>* = NULL);
     friend class Map<K,V>;
-    friend class KeyCmp<K,V>;
+    friend class Modify<K,V>;
 };
 
 //constructor

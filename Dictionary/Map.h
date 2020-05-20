@@ -1,14 +1,12 @@
 #ifndef BST_H
 #define BST_H
 
-#include "KeyCmp.h"
+#include "Modify.h"
 
 //Dictionarul este construit ca un arbore binar de cautare
 //si de aceea exista si clasa Node.
-//Clasa KeyCmp este folosita pentru transformarea valorilor printr-un obiect-functie
-//si verifica daca doua dictionare au exact aceleasi chei.
 
-template<class K,class V,class C>
+template<class K,class V,class M>
 class Map{
     int size_;
     Node<K,V>* root_;
@@ -31,21 +29,21 @@ public:
     void delete_pair(K);
     bool find_key(K) const;
     int size() const { return size_; }
-    bool same_keys(const Map<K,V>& other) const;
+    void increase_values(const V&);
 };
 
-template<class K,class V, class C>
-Map<K,V,C>::~Map(){
+template<class K,class V, class M>
+Map<K,V,M>::~Map(){
     cleanup(root_);
 }
 
-template<class K,class V, class C>
-Map<K,V,C>::Map(const Map<K,V>& other) : size_(other.size_) {
+template<class K,class V, class M>
+Map<K,V,M>::Map(const Map<K,V>& other) : size_(other.size_) {
     copy_helper(root_, other.root_);
 }
 
-template<class K,class V, class C>
-const V& Map<K,V,C>::operator [] (const K& key){
+template<class K,class V, class M>
+const V& Map<K,V,M>::operator [] (const K& key){
     Node<K,V>* temp = root_;
     while (temp){
         if (temp->key_ == key){
@@ -60,8 +58,8 @@ const V& Map<K,V,C>::operator [] (const K& key){
     throw std::out_of_range("Invalid Key!");
 }
 
-template<class K,class V, class C>
-Map<K,V>& Map<K,V,C>::operator = (const Map<K,V>& other){
+template<class K,class V, class M>
+Map<K,V>& Map<K,V,M>::operator = (const Map<K,V>& other){
     if (this != &other){
         cleanup(root_);
         size_ = other.size_;
@@ -71,8 +69,8 @@ Map<K,V>& Map<K,V,C>::operator = (const Map<K,V>& other){
 }
 
 //cautarea unei chei in arbore
-template<class K,class V, class C>
-bool Map<K,V,C>::find_key(K key) const {
+template<class K,class V, class M>
+bool Map<K,V,M>::find_key(K key) const {
     Node<K,V>* temp = root_;
     while (temp){
         if (temp->key_ == key){
@@ -88,8 +86,8 @@ bool Map<K,V,C>::find_key(K key) const {
 }
 
 //metoda "inorder" este folosita pentru afisarea perechilor in ordine crescatoare cheilor.
-template<class K,class V, class C>
-std::ostream& Map<K,V,C>::inorder(std::ostream& out, const Node<K,V>* const& node) const {
+template<class K,class V, class M>
+std::ostream& Map<K,V,M>::inorder(std::ostream& out, const Node<K,V>* const& node) const {
     if (node){
         inorder(out, node->left_);
         out << "(" << node->key_ << ", " << node->value_ << ") ";
@@ -104,24 +102,36 @@ std::ostream& operator << (std::ostream& out, const Map<K,V>& map){
 }
 
 //inserare in BST
-template<class K,class V, class C>
-void Map<K,V,C>::insert_pair(K key, V value){
+template<class K,class V, class M>
+void Map<K,V,M>::insert_pair(K key, V value){
     ++size_;
     if (!root_){
-        root_ = new Node<K,V>(key, value);
+        try{
+            root_ = new Node<K,V>(key, value);
+        } catch (std::bad_alloc& xa){
+            std::cout << "Allocation failure!";
+        }
         return;
     }
     Node<K,V>* temp = root_;
     while (temp){
         if (key < temp->key_){
             if (!temp->left_){
-                temp->left_ = new Node<K,V>(key, value);
+                try{
+                    temp->left_ = new Node<K,V>(key, value);
+                } catch (std::bad_alloc& xa){
+                    std::cout << "Allocation failure!";
+                }
                 temp = NULL;
             } else
                 temp = temp->left_;
         } else if (key > temp->key_){
             if (!temp->right_){
-                temp->right_ = new Node<K,V>(key, value);
+                try{
+                    temp->right_ = new Node<K,V>(key, value);
+                } catch (std::bad_alloc& xa){
+                    std::cout << "Allocation failure!";
+                }
                 temp = NULL;
             } else
                 temp = temp->right_;
@@ -134,8 +144,8 @@ void Map<K,V,C>::insert_pair(K key, V value){
 }
 
 //stergere din BST cu mentinerea proprietatii de arbore binar de cautare
-template<class K,class V, class C>
-void Map<K,V,C>::delete_pair(K key){
+template<class K,class V, class M>
+void Map<K,V,M>::delete_pair(K key){
     Node<K,V>* curr = root_, *father = NULL;
     if (!root_){
         return;
@@ -187,15 +197,15 @@ void Map<K,V,C>::delete_pair(K key){
 }
 
 //transformarea prin obiect-functie
-template<class K,class V, class C>
-bool Map<K,V,C>::same_keys(const Map<K,V>& other) const{
-    C comparator;
-    return comparator(root_, size_, other.root_, other.size_);
+template<class K,class V, class M>
+void Map<K,V,M>::increase_values(const V& val){
+    M modifier;
+    modifier(root_, val);
 }
 
 //stergerea tuturor nodurilor din arbore
-template<class K,class V, class C>
-void Map<K,V,C>::cleanup(Node<K,V>* node){
+template<class K,class V, class M>
+void Map<K,V,M>::cleanup(Node<K,V>* node){
     if (node){
         cleanup(node->left_);
         cleanup(node->right_);
@@ -207,8 +217,8 @@ void Map<K,V,C>::cleanup(Node<K,V>* node){
 }
 
 //functie recursiva pentru copierea intregii structuri a unui BST intr-un alt arbore
-template<class K,class V, class C>
-void Map<K,V,C>::copy_helper(Node<K,V>*& to_node, const Node<K,V>* const& from_node){
+template<class K,class V, class M>
+void Map<K,V,M>::copy_helper(Node<K,V>*& to_node, const Node<K,V>* const& from_node){
     if (from_node){
         try{
             to_node = new Node<K,V>(from_node->key_, from_node->value_);

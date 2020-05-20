@@ -41,10 +41,10 @@ int main()
     cout << "s-a inserat cheia 2 in p1? " << p1.find_key(2) << endl;
     cout << "numarul de parechi ale lui p1? " << p1.size() << endl;
     p2 = p1;
-    cout << "p = " << p << endl;
     cout << "p2 = p1 = " << p2 << endl;
-    cout << "p si p1 au exact aceleasi chei? " << p.same_keys(p1) << endl;
-    cout << "p1 si p2 au exact aceleasi chei? " << p1.same_keys(p2) << endl;
+    cout << "p = " << p << endl;
+    p.increase_values(10);
+    cout << "dupa marirea valorilor lui p cu 10: " << p << endl;
 
     Map<string, int> p3;
     p3.insert_pair("a", 1);
@@ -52,7 +52,6 @@ int main()
     p3.insert_pair("def", 3);
     p3.insert_pair("ghij", 4);
     cout << "p3 = " << p3 << endl;
-
 
     return 0;
 }
