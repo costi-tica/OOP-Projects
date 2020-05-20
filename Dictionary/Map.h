@@ -29,7 +29,7 @@ public:
     void delete_pair(K);
     bool find_key(K) const;
     int size() const { return size_; }
-    void increase_values(const V&);
+    void modify_values(M&);
 };
 
 template<class K,class V, class M>
@@ -197,10 +197,12 @@ void Map<K,V,M>::delete_pair(K key){
 }
 
 //transformarea prin obiect-functie
+//obiectul Modify creste sau scade toate valorile dictionarului cu un numar dat la crearea obiectului Modify
+//ex: Modify increase_by_10(10)
+//    dict.modify_values(increase_by_10)
 template<class K,class V, class M>
-void Map<K,V,M>::increase_values(const V& val){
-    M modifier;
-    modifier(root_, val);
+void Map<K,V,M>::modify_values(M& modifier){
+    modifier(root_);
 }
 
 //stergerea tuturor nodurilor din arbore

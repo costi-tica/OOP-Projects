@@ -43,7 +43,11 @@ int main()
     p2 = p1;
     cout << "p2 = p1 = " << p2 << endl;
     cout << "p = " << p << endl;
-    p.increase_values(10);
+    Modify<int,int> increase_by_10(10);
+    //obiectul Modify creste sau scade toate valorile dictionarului cu un numar dat la crearea lui
+    //ex: Modify decrease_by_8(-8)
+    //    p.modify_values(decrease_by_8)
+    p.modify_values(increase_by_10);
     cout << "dupa marirea valorilor lui p cu 10: " << p << endl;
 
     Map<string, int> p3;

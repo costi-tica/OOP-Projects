@@ -6,36 +6,38 @@
 #include <cassert>
 #include <new>
 
-
+//obiectele Modify primesc pa paramatru o valoare de tip V, reprezentand valoare cu care se maresc toate valorile din dictionar,
+//se poate face si scadere
+//ex: Modify increase_by_5(5)
+//sau Modify decrease_by_7(-7)
 template<class K,class V>
 class Modify{
-    void mdf_helper(Node<K,V>* const&, const V&);
+    V val_;
+
+    void mdf_helper(Node<K,V>* const&);
 public:
-    Modify();
+    Modify(V val = 0): val_(val) { }
     ~Modify();
 
-    void operator () (Node<K,V>* const&, const V&);
+    void operator () (Node<K,V>* const&);
 };
-
-template<class K,class V>
-Modify<K,V>::Modify(){ }
 
 template<class K,class V>
 Modify<K,V>::~Modify(){ }
 
-//operatorul "()" primeste ca parametri radacina arborelui si numarul cu care trebuie sa se mareasca valorile dictionarului
+
 template<class K,class V>
-void Modify<K,V>::operator () (Node<K,V>* const& root, const V& val){
-    mdf_helper(root, val);
+void Modify<K,V>::operator () (Node<K,V>* const& root){
+    mdf_helper(root);
 }
 
 template<class K,class V>
-void Modify<K,V>::mdf_helper(Node<K,V>* const& node, const V& val){
+void Modify<K,V>::mdf_helper(Node<K,V>* const& node){
     if(node){
-        mdf_helper(node->left_, val);
+        mdf_helper(node->left_);
         assert(node);
-        node->value_ += val;
-        mdf_helper(node->right_, val);
+        node->value_ += val_;
+        mdf_helper(node->right_);
     }
 }
 
