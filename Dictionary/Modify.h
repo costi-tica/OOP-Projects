@@ -23,7 +23,7 @@ Modify<K,V>::Modify(){ }
 template<class K,class V>
 Modify<K,V>::~Modify(){ }
 
-//operatorul "()" primeste ca parametri radacinile arborilor si numarul de elemente ale fiecaruia
+//operatorul "()" primeste ca parametri radacina arborelui si numarul cu care trebuie sa se mareasca valorile dictionarului
 template<class K,class V>
 void Modify<K,V>::operator () (Node<K,V>* const& root, const V& val){
     mdf_helper(root, val);
